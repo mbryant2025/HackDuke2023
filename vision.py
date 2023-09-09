@@ -1,7 +1,6 @@
 # This script uses the USB camera to detect movement and saves the raw image and movement image to the images folder
 
 
-import random
 import cv2
 
 MOTION_MIN = 3
@@ -52,6 +51,11 @@ def detect_motion(frame):
     return False
 
 
+def trigger_alert():
+     # TODO
+     print("Triggering alert")
+
+
 def main():
       
       prev_frame = get_frame()
@@ -70,25 +74,11 @@ def main():
             # Detect motion
             if detect_motion(diff):
                 print("Motion detected ")
+                trigger_alert()
 
 
             prev_frame = frame
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
                   break
-            
-    # cap.release()
-    # cv2.destroyAllWindows() 
-      
-
 main()
-            
-
-
-
-# while True:
-#         # get and display next frame
-#         img = get_frame()
-#         cv2.imshow("Image", img)
-#         if cv2.waitKey(1) & 0xFF == ord('q'):
-#                 break
