@@ -4,6 +4,8 @@
 import random
 import cv2
 
+MOTION_MIN = 3
+"""Motion threshold. If the average pixel value of the diff image is greater than this value, then there was significant motion"""
 
 cap = cv2.VideoCapture(0)
 
@@ -32,14 +34,22 @@ def highlight_motion(frame, diff):
     _, mask = cv2.threshold(diff, 10, 255, cv2.THRESH_BINARY)
 
     # Apply the mask to the copy of the original image
-    frame_copy[mask > 50] = [0, 0, 255]
+    frame_copy[mask > 230] = [0, 0, 255]
 
     return frame_copy
 
 
+def detect_motion(frame):
+     # Inputs a diff frame and determines if there was significant motion
+     
+     # Calculate the average pixel value of the diff image
+    avg = cv2.mean(frame)[0]
 
-
-
+    # If the average pixel value is greater than MOTION_MIN, then there was significant motion
+    if avg > MOTION_MIN:
+        return True
+    
+    return False
 
 
 def main():
@@ -56,6 +66,10 @@ def main():
 
             cv2.imshow("Image", diff)
             cv2.imshow("Image", diff2)
+
+            # Detect motion
+            if detect_motion(diff):
+                print("Motion detected ")
 
 
             prev_frame = frame
