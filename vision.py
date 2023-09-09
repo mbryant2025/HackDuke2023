@@ -2,6 +2,7 @@
 
 
 import cv2
+import json
 
 MOTION_MIN = 3
 """Motion threshold. If the average pixel value of the diff image is greater than this value, then there was significant motion"""
@@ -22,6 +23,12 @@ def frame_diff(frame1, frame2):
 
     return diff
 
+def get_temp():
+    # TODO
+    # Fake temperature reading (farhenheit)
+    # Return random number between 50 and 120
+    return 69
+
 
 def highlight_motion(frame, diff):
     # Overlay the diff image onto the original image with the diff in red
@@ -33,7 +40,7 @@ def highlight_motion(frame, diff):
     _, mask = cv2.threshold(diff, 10, 255, cv2.THRESH_BINARY)
 
     # Apply the mask to the copy of the original image
-    frame_copy[mask > 230] = [0, 0, 255]
+    frame_copy[mask > 230] = [0,0,255]
 
     return frame_copy
 
@@ -51,14 +58,18 @@ def detect_motion(frame):
     return False
 
 
-def trigger_alert():
-     # TODO
-     print("Triggering alert")
+def trigger_motion(motion):
+     # Write to the json file that motion was detected
+     # File is "./data/motion.json"
+
+     with open("./data/motion.json", "w") as f:
+        json.dump({"motion": motion}, f)
 
 
 def main():
       
       prev_frame = get_frame()
+      motion_currently_detected = False
 
       while 1:
             
@@ -66,15 +77,16 @@ def main():
             
             diff = frame_diff(prev_frame, frame)
 
-            diff2 = highlight_motion(frame, diff)
+            diff_red = highlight_motion(frame, diff)
 
-            cv2.imshow("Image", diff)
-            cv2.imshow("Image", diff2)
+            cv2.imshow("Image", diff_red)
 
-            # Detect motion
-            if detect_motion(diff):
-                print("Motion detected ")
-                trigger_alert()
+            d = detect_motion(diff)
+
+            # If motion_currently_detected is different than d, we need to update the json file
+            if motion_currently_detected != d:
+                trigger_motion(d)
+                motion_currently_detected = d
 
 
             prev_frame = frame
