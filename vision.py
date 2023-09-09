@@ -5,6 +5,8 @@ app = Flask(__name__)
 
 MOTION_MIN = 3
 
+motion_currently_detected = False
+
 def frame_diff(frame1, frame2):
     frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
     frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
@@ -25,9 +27,11 @@ def detect_motion(frame):
 
 
 def generate_frames():
+
+    global motion_currently_detected
+
     cap = cv2.VideoCapture(0)
     prev_frame = cap.read()[1]
-    motion_currently_detected = False
 
     while True:
         success, frame = cap.read()
@@ -42,15 +46,7 @@ def generate_frames():
             # Update previous frame
             prev_frame = frame.copy()
 
-            d = detect_motion(diff)
-
-            # if d:
-            #     print("Motion detected!")
-
-            if motion_currently_detected != d:
-                motion_currently_detected = d
-
-
+            motion_currently_detected = detect_motion(diff)
 
             # Encode the frame as JPEG
             ret, buffer = cv2.imencode('.jpg', diff_red)
@@ -67,6 +63,11 @@ def index():
 def video_feed():
     return Response(generate_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# Transmit data representing the current state of motion detection
+@app.route('/motion')
+def motion():
+    return str(motion_currently_detected)
 
 if __name__ == "__main__":
     app.run(debug=True)

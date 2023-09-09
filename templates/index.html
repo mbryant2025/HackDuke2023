@@ -5,5 +5,20 @@
 </head>
 <body>
     <img src="{{ url_for('video_feed') }}" alt="Video Feed">
+    
+    <p>Motion Detection Status: <span id="motion-status">Loading...</span></p>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to fetch and update the motion status
+        function updateMotionStatus() {
+            $.get("{{ url_for('motion') }}", function(data) {
+                $("#motion-status").text(data);
+            });
+        }
+
+        // Periodically update the motion status
+        setInterval(updateMotionStatus, 1000); // Update every 1 second
+    </script>
 </body>
 </html>
