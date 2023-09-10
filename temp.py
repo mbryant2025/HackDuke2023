@@ -26,6 +26,11 @@ def parse_temp_humidity(line):
     humidity = line.split(",")[1]
     return temp, humidity
 
+def read_temp_humidity(ser):
+    line = read_serial(ser)
+    temp, humidity = parse_temp_humidity(line)
+    return temp, humidity
+
 #initialize serial port
 ser = init_serial("COM4")
 
