@@ -1,24 +1,176 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Video Streaming</title>
-</head>
-<body>
-    <img src="{{ url_for('video_feed') }}" alt="Video Feed">
-    
-    <p>Motion Detection Status: <span id="motion-status">Loading...</span></p>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        // Function to fetch and update the motion status
-        function updateMotionStatus() {
-            $.get("{{ url_for('motion') }}", function(data) {
-                $("#motion-status").text(data);
-            });
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        // Periodically update the motion status
-        setInterval(updateMotionStatus, 1000); // Update every 1 second
-    </script>
+        .video {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            /*center horizontally*/
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        .banner {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            max-height: 80px;
+        }
+
+        .columns {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .column1 {
+            width: 35%;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .column2 {
+            width: 65%;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .widget {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+
+        .widget.green {
+            background-color: green;
+        }
+
+        .widget.red {
+            background-color: red;
+        }
+
+        #my-div {
+            width: 400px;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #my-iframe {
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 1280px;
+            height: 1200px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="banner">
+        <h1>Video Streaming</h1>
+    </div>
+
+    <div class="columns">
+
+        <div class="column1">
+
+            <h1>Today's Weather</h1>
+
+            <div>
+                <iframe src="https://www.accuweather.com/en/us/durham/27701/weather-forecast/329821"></iframe>
+            </div>
+
+            <div class="widget columns">
+                <div class="column1">
+                    <h2>Temperature</h2>
+                </div>
+                <div class="column1">
+                    <p><span id="temperature">Loading...</span></p>
+                </div>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    // Function to fetch and update the motion status
+                    function updateMotionStatus() {
+                        $.get("{{ url_for('temperature') }}", function (data) {
+                            $("#temperature").text(data);
+                        });
+                    }
+
+                    // Periodically update the motion status
+                    setInterval(updateMotionStatus, 100); // Update every .1 second
+                </script>
+            </div>
+
+            <div class="widget columns">
+                <div class="column1">
+                    <h2>Motion</h2>
+                </div>
+                <div class="column1">
+                    <p><span id="motion">Loading...</span></p>
+                </div>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    // Function to fetch and update the motion status
+                    function updateMotionStatus() {
+                        $.get("{{ url_for('motion') }}", function (data) {
+                            $("#motion").text(data);
+                        });
+                    }
+
+                    // Periodically update the motion status
+                    setInterval(updateMotionStatus, 100); // Update every .1 second
+                </script>
+
+            </div>
+
+            <div class="widget columns" id="alertWidget">
+                <h2><span id="alert">Loading...</span></h2>
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                // Function to fetch and update the motion status
+                function updateAlertStatus() {
+                    $.get("{{ url_for('alert') }}", function (data) {
+                        $("#alert").text(data);
+                        if (data.trim() === "ALERT: DANGEROUS SITUATION DETECTED") {
+                            $("#alertWidget").addClass("red").removeClass("green");
+                        } else {
+                            $("#alertWidget").addClass("green").removeClass("red");
+                        }
+                    });
+                }
+
+                // Periodically update the motion status
+                setInterval(updateAlertStatus, 100); // Update every 0.1 second
+            </script>
+
+        </div>
+
+        <div class="column2">
+            <img src="{{ url_for('video_feed') }}" class="video" alt="Video Feed">
+        </div>
+
+    </div>
+
 </body>
+
 </html>
