@@ -21,8 +21,9 @@ def read_serial(ser):
 
 def parse_temp_humidity(line):
     #parse temperature and humidity values
-    temp = line.split(",")[0]
-    humidity = line.split(",")[1]
+    temp, humidity = line.split(",")
+    temp = float (temp)
+    humidity = float (humidity)
     return temp, humidity
 
 def read_temp_humidity(ser):
@@ -36,6 +37,9 @@ if __name__ == "__main__":
 
     #read serial forever
     while True:
-        line = read_serial(ser)
-        temp, humidity = parse_temp_humidity(line)
-        print("Temperature: " + temp + ", Humidity: " + humidity)
+        temp, humidity = read_temp_humidity(ser)
+        print("Temperature: " + str(temp) + " Humidity: " + str(humidity))
+        if temp > 100:
+            print("WARNING: HIGH TEMPERATURE")
+        if humidity > 60:
+            print("WARNING: HIGH HUMIDITY")
