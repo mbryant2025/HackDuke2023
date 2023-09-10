@@ -6,7 +6,7 @@ app = Flask(__name__)
 MOTION_MIN = 1.5
 
 motion_currently_detected = False
-temp = 420
+temp = 461
 consecutive_danger = 0
 
 MIN_DANGER_FRAMES = 6
