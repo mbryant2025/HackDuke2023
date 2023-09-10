@@ -1,6 +1,5 @@
 from flask import Flask, render_template, Response
 import cv2
-import serial_sensor_measurements as ssm
 
 app = Flask(__name__)
 
@@ -10,8 +9,6 @@ motion_currently_detected = False
 temp = 98
 humid = 69
 consecutive_danger = 0
-com_port = "COM4"
-serial = ssm.init_serial(com_port)
 
 MIN_DANGER_FRAMES = 6
 HIGH_DANGER_TEMP = 100
@@ -53,7 +50,12 @@ def detect_motion(frame):
 def update_temp_humidity():
     global temp
     global humid
-    temp, humid = ssm.read_temp_humidity(serial)
+    #read temperature and humidity values from temp_humidity.txt file
+    with open("temp_humidity.txt", "r") as f:
+        line = f.readline()
+        temp, humid = line.split(",")
+        temp = float (temp)
+        humid = float (humid)
 
 def generate_frames():
 

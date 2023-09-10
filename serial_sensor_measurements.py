@@ -3,6 +3,7 @@ import serial
 
 #initialize serial port
 def init_serial(port_name, baud_rate = 9600):
+    print("Initializing serial port")
     #configure the serial connection
     ser = serial.Serial()
     ser.port = port_name
@@ -32,14 +33,16 @@ def read_temp_humidity(ser):
     return temp, humidity
 
 if __name__ == "__main__":
+    temp, humidity = 0,0
+
     #initialize serial port
     ser = init_serial("COM4")
+    print ("Serial port initialized")
 
     #read serial forever
     while True:
         temp, humidity = read_temp_humidity(ser)
         print("Temperature: " + str(temp) + " Humidity: " + str(humidity))
-        if temp > 100:
-            print("WARNING: HIGH TEMPERATURE")
-        if humidity > 60:
-            print("WARNING: HIGH HUMIDITY")
+        #write them to a file
+        with open("temp_humidity.txt", "w") as f:
+            f.write(str(temp) + "," + str(humidity))
