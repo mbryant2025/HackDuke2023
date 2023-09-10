@@ -6,11 +6,13 @@ app = Flask(__name__)
 MOTION_MIN = 1.5
 
 motion_currently_detected = False
-temp = 420
+temp = 98
+humid = 69
 consecutive_danger = 0
 
 MIN_DANGER_FRAMES = 6
-DANGER_TEMP = 90
+HIGH_DANGER_TEMP = 100
+LOW_DANGER_TEMP = 90
 
 def frame_diff(frame1, frame2):
     frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
@@ -91,23 +93,28 @@ def video_feed():
 def motion():
     return str(motion_currently_detected)
 
-# Transmit data representing the current state of motion detection
 @app.route('/temperature')
 def temperature():
     return str(temp)
 
+@app.route('/humidity')
+def humidity():
+    return str(humid)
+
 @app.route('/alert')
 def alert():
     global consecutive_danger
-    if motion_currently_detected and temp > DANGER_TEMP:
+    if motion_currently_detected:
         consecutive_danger += 1
     else:
         consecutive_danger = 0
 
     if consecutive_danger > MIN_DANGER_FRAMES:
         return 'ALERT: Patient Movement Detected'
+    elif temp > HIGH_DANGER_TEMP or temp < LOW_DANGER_TEMP:
+        return 'ALERT: Patient Temperature Critical'
     else:
-        return 'Patient at rest or deceased'
+        return 'Patient at Rest or Deceased'
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
