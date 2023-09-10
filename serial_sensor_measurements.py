@@ -7,7 +7,6 @@ def init_serial(port_name, baud_rate = 9600):
     ser = serial.Serial()
     ser.port = port_name
     ser.baudrate = baud_rate
-    #print(ser)
     ser.open()
     return ser
 
@@ -31,11 +30,12 @@ def read_temp_humidity(ser):
     temp, humidity = parse_temp_humidity(line)
     return temp, humidity
 
-#initialize serial port
-ser = init_serial("COM4")
+if __name__ == "__main__":
+    #initialize serial port
+    ser = init_serial("COM4")
 
-#read serial
-while True:
-    line = read_serial(ser)
-    temp, humidity = parse_temp_humidity(line)
-    print("Temperature: " + temp + ", Humidity: " + humidity)
+    #read serial forever
+    while True:
+        line = read_serial(ser)
+        temp, humidity = parse_temp_humidity(line)
+        print("Temperature: " + temp + ", Humidity: " + humidity)
