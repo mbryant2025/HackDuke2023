@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    <title>Video Streaming</title>
+    <title>Car Watch</title>
     <style>
         body {
-            background-color: #f2f2f2;
+            background-color: #6699ff;
             font-family: Arial, Helvetica, sans-serif;
         }
 
@@ -17,16 +17,21 @@
             margin-left: auto;
             margin-right: auto;
             display: block;
+
         }
 
         .banner {
-            background-color: #333;
-            color: #fff;
+            background-color: white;
+            color: black;
             text-align: center;
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 20px;
             max-height: 80px;
+            max-width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
 
         .columns {
@@ -37,20 +42,20 @@
         }
 
         .column1 {
-            width: 35%;
+            width: 40%;
             padding: 10px;
             text-align: center;
         }
 
         .column2 {
-            width: 65%;
+            width: 60%;
             padding: 10px;
             text-align: center;
         }
 
         .widget {
-            background-color: #333;
-            color: #fff;
+            background-color: white;
+            color: black;
             text-align: center;
             padding: 10px;
             margin-bottom: 20px;
@@ -66,44 +71,131 @@
         }
 
         #my-div {
-            width: 400px;
-            height: 200px;
+            width: 350px;
+            height: 180px;
             overflow: hidden;
             position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
 
         #my-iframe {
             position: absolute;
-            top: -100px;
-            left: -100px;
-            width: 1280px;
-            height: 1200px;
+            top: -260px;
+            left: -620px;
+            width: 2280px;
+            height: 2200px;
+        }
+
+        #my-left-div {
+            width: 300px;
+            height: 100px;
+            overflow: hidden;
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        #my-left-iframe {
+            position: absolute;
+            top: -190px;
+            left: -620px;
+            width: 2280px;
+            height: 2200px;
+        }
+
+        .weather {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            /*center horizontally*/
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            /* put black border */
+            margin-bottom: 20px;
+            background-color: white;
+        } 
+
+        #title_name {
+            font-size: 100px;
+        }
+
+        .alt_columns {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .alt_column1 {
+            width: 40%;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .alt_column2 {
+            width: 60%;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="banner">
-        <h1>Video Streaming</h1>
-    </div>
+    <!-- <div class="banner">
+        <h1>Car Watch</h1>
+    </div> -->
 
     <div class="columns">
 
         <div class="column1">
 
+        <h1 id="title_name">Car Watch</h1>
+
+
             <h1>Today's Weather</h1>
 
-            <div>
-                <iframe src="https://www.accuweather.com/en/us/durham/27701/weather-forecast/329821"></iframe>
+            
+
+            <div class="weather">
+
+
+
+                <div class="alt_columns">
+                    <div class="alt_column1">
+                        <h2>Today's Weather</h2>
+                    </div>
+    
+                    <div lass="alt_column2">
+                        <div id="my-div">
+                            <iframe src="https://openweathermap.org/city/4464368" id="my-iframe" scrolling="no"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+                
             </div>
+
+
 
             <div class="widget columns">
                 <div class="column1">
-                    <h2>Temperature</h2>
+                    <h2>Car Temperature</h2>
                 </div>
                 <div class="column1">
-                    <p><span id="temperature">Loading...</span></p>
+                    <h2><span id="temperature">Loading...</span> F</h2>
                 </div>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
@@ -124,7 +216,7 @@
                     <h2>Motion</h2>
                 </div>
                 <div class="column1">
-                    <p><span id="motion">Loading...</span></p>
+                    <h2><span id="motion">Loading...</span></h2>
                 </div>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>

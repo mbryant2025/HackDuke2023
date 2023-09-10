@@ -3,7 +3,7 @@ import cv2
 
 app = Flask(__name__)
 
-MOTION_MIN = 1.3
+MOTION_MIN = 1.5
 
 motion_currently_detected = False
 temp = 420
