@@ -29,6 +29,23 @@ def detect_motion(frame):
     if avg > MOTION_MIN:
         return True
     return False
+    # # We say that motion is detected if there are more than 30 white pixels in a 10x10 grid
+    # # Use kernel to count number of white pixels in each 10x10 grid
+    # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (30, 30))
+
+    # # Apply kernel to frame
+    # dilated = cv2.dilate(frame, kernel)
+
+    # # Determine the maximum pixel value in the frame
+    # max_pixel = cv2.max(dilated)
+    # # global temp
+    # # temp = max_pixel
+    # # If the maximum pixel value is greater than 230, then motion is detected
+    # if max_pixel > 230:
+    #     return True
+    # return False
+
+
 
 
 def generate_frames():
@@ -88,9 +105,9 @@ def alert():
         consecutive_danger = 0
 
     if consecutive_danger > MIN_DANGER_FRAMES:
-        return 'ALERT: DANGEROUS SITUATION DETECTED'
+        return 'ALERT: Patient Movement Detected'
     else:
-        return 'Dangerous Situation Not Detected'
+        return 'Patient at rest or deceased'
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

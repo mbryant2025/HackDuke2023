@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Car Watch</title>
+    <title>Patient Watch</title>
     <style>
         body {
             background-color: #6699ff;
@@ -146,53 +146,23 @@
 
 <body>
 
-    <!-- <div class="banner">
-        <h1>Car Watch</h1>
-    </div> -->
-
     <div class="columns">
 
         <div class="column1">
 
-        <h1 id="title_name">Car Watch</h1>
+        <h1 id="title_name">Patient Watch</h1>
 
 
-            <h1>Today's Weather</h1>
+            <h1>Patient's Vitals</h1>
 
             
 
-            <div class="weather">
-
-
-
-                <div class="alt_columns">
-                    <div class="alt_column1">
-                        <h2>Today's Weather</h2>
-                    </div>
-    
-                    <div lass="alt_column2">
-                        <div id="my-div">
-                            <iframe src="https://openweathermap.org/city/4464368" id="my-iframe" scrolling="no"></iframe>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
-                
-            </div>
 
 
 
             <div class="widget columns">
                 <div class="column1">
-                    <h2>Car Temperature</h2>
+                    <h2>Patient Temperature</h2>
                 </div>
                 <div class="column1">
                     <h2><span id="temperature">Loading...</span> F</h2>
@@ -243,7 +213,7 @@
                 function updateAlertStatus() {
                     $.get("{{ url_for('alert') }}", function (data) {
                         $("#alert").text(data);
-                        if (data.trim() === "ALERT: DANGEROUS SITUATION DETECTED") {
+                        if (data.trim() === "ALERT: Patient Movement Detected") {
                             $("#alertWidget").addClass("red").removeClass("green");
                         } else {
                             $("#alertWidget").addClass("green").removeClass("red");
