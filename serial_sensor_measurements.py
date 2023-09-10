@@ -36,7 +36,7 @@ if __name__ == "__main__":
     temp, humidity = 0,0
 
     #initialize serial port
-    ser = init_serial("COM4")
+    ser = init_serial("/dev/tty.usbserial-10")
     print ("Serial port initialized")
 
     #read serial forever
