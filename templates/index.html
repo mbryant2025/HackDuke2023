@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Car Watch</title>
+    <title>Patient Watch</title>
     <style>
         body {
             background-color: #6699ff;
@@ -141,58 +141,50 @@
             padding: 10px;
             text-align: center;
         }
+
+        .patients {
+            /* row of 6 widgets */
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .patient {
+            /* each widget */
+            width: 15%;
+            padding: 10px;
+            text-align: center;
+            background-color: white;
+            color: black;
+            margin: 10px;
+            border-radius: 20px;
+        }
+
+
     </style>
 </head>
 
 <body>
 
-    <!-- <div class="banner">
-        <h1>Car Watch</h1>
-    </div> -->
-
     <div class="columns">
 
         <div class="column1">
 
-        <h1 id="title_name">Car Watch</h1>
+        <h1 id="title_name">Patient Watch</h1>
 
 
-            <h1>Today's Weather</h1>
+            <h1>Patient #F61's Vitals</h1>
 
             
 
-            <div class="weather">
-
-
-
-                <div class="alt_columns">
-                    <div class="alt_column1">
-                        <h2>Today's Weather</h2>
-                    </div>
-    
-                    <div lass="alt_column2">
-                        <div id="my-div">
-                            <iframe src="https://openweathermap.org/city/4464368" id="my-iframe" scrolling="no"></iframe>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
-                
-            </div>
 
 
 
             <div class="widget columns">
                 <div class="column1">
-                    <h2>Car Temperature</h2>
+                    <h2>Patient Temperature</h2>
                 </div>
                 <div class="column1">
                     <h2><span id="temperature">Loading...</span> F</h2>
@@ -203,6 +195,27 @@
                     function updateMotionStatus() {
                         $.get("{{ url_for('temperature') }}", function (data) {
                             $("#temperature").text(data);
+                        });
+                    }
+
+                    // Periodically update the motion status
+                    setInterval(updateMotionStatus, 100); // Update every .1 second
+                </script>
+            </div>
+
+            <div class="widget columns">
+                <div class="column1">
+                    <h2>Room Humidity</h2>
+                </div>
+                <div class="column1">
+                    <h2><span id="humidity">Loading...</span></h2>
+                </div>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    // Function to fetch and update the motion status
+                    function updateMotionStatus() {
+                        $.get("{{ url_for('humidity') }}", function (data) {
+                            $("#humidity").text(data);
                         });
                     }
 
@@ -243,10 +256,10 @@
                 function updateAlertStatus() {
                     $.get("{{ url_for('alert') }}", function (data) {
                         $("#alert").text(data);
-                        if (data.trim() === "ALERT: DANGEROUS SITUATION DETECTED") {
-                            $("#alertWidget").addClass("red").removeClass("green");
-                        } else {
+                        if (data.trim() === "Patient at Rest or Deceased") {
                             $("#alertWidget").addClass("green").removeClass("red");
+                        } else {
+                            $("#alertWidget").addClass("red").removeClass("green");
                         }
                     });
                 }
@@ -262,6 +275,39 @@
         </div>
 
     </div>
+
+    <div class="patients">
+        <div class="patient">
+            <h2>Patient #F61</h2>
+            <h3>Temperature: <span id="temperature">Loading...</span> F</h3>
+            <h3>Humidity: <span id="humidity">Loading...</span></h3>
+            <h3>Motion: <span id="motion">Loading...</span></h3>
+            <h3>Alert: <span id="alert">Loading...</span></h3>
+        </div>
+        <div class="patient">
+            <h2>Patient #F62</h2>
+            <h3>Temperature: <span id="temperature">Loading...</span> F</h3>
+            <h3>Humidity: <span id="humidity">Loading...</span></h3>
+            <h3>Motion: <span id="motion">Loading...</span></h3>
+            <h3>Alert: <span id="alert">Loading...</span></h3>
+        </div>
+        <div class="patient">
+            <h2>Patient #F63</h2>
+            <h3>Temperature: <span id="temperature">Loading...</span> F</h3>
+            <h3>Humidity: <span id="humidity">Loading...</span></h3>
+            <h3>Motion: <span id="motion">Loading...</span></h3>
+            <h3>Alert: <span id="alert">Loading...</span></h3>
+        </div>
+        <div class="patient">
+            <h2>Patient #F64</h2>
+            <h3>Temperature: <span id="temperature">Loading...</span> F</h3>
+            <h3>Humidity: <span id="humidity">Loading...</span></h3>
+            <h3>Motion: <span id="motion">Loading...</span></h3>
+            <h3>Alert: <span id="alert">Loading...</span></h3>
+        </div>
+
+    </div>
+
 
 </body>
 
